@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "736546280912",
+    "firebase_url": "https://trivia-app-b0623.firebaseio.com",
+    "project_id": "trivia-app-b0623",
+    "storage_bucket": "trivia-app-b0623.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736546280912:android:e0a3e73c282292788315d5",
+        "android_client_info": {
+          "package_name": "com.mentalsegment.triviaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "736546280912-d02ttvffm6smh6bi7v58p7chruqbgh76.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD27iZoZAHTdJaDtVWvIGmwYQ4_Qx5Sr9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "736546280912-d02ttvffm6smh6bi7v58p7chruqbgh76.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
