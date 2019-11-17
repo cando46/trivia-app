@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TriviaApp</string>
+    <string name="facebook_app_id">849303098819319</string>
+    <string name="fb_login_protocol_scheme">fb849303098819319</string>
+    <string name="Et_LoginPage_Username">username</string>
+
 </resources>
