@@ -2,6 +2,12 @@
     <string name="app_name">TriviaApp</string>
     <string name="facebook_app_id">849303098819319</string>
     <string name="fb_login_protocol_scheme">fb849303098819319</string>
-    <string name="Et_LoginPage_Username">username</string>
+    <string name="Et_LoginPage_Username">Username</string>
+    <string name="et_loginPage_password">Password</string>
+    <string name="btn_loginPage_login">Login</string>
+    <string name="nav_title_home">Home</string>
+    <string name="nav_title_profile">Profile</string>
+    <string name="nav_title_shop">Shop</string>
+    <string name="nav_title_settings">Settings</string>
 
 </resources>
