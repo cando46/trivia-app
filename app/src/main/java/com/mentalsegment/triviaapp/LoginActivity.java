@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         init();
         facebookLogin();
+        Intent intent= new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(intent);
     }
 
 
@@ -79,8 +81,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onClickLoginButton(){
         hideKeyboard();
-        if(CheckLogin()){
-        }
+       /* if(CheckLogin()){
+        }*/
     }
 
     private boolean CheckLogin() {
