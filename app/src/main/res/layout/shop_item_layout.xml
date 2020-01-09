@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/Background"
-    android:orientation="vertical"
-    tools:context=".fragments.ShopFragment">
+    android:layout_height="100dp"
+    android:padding="5dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="3"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/ic_launcher_round" />
+            android:id="@+id/imv_shop_itemImage"
+            android:scaleType="fitCenter"
+            android:layout_width="100dp"
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_shop_itemName"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:padding="1dp"
-                android:text="@string/nav_draw_header_username"
+                android:text="Item Name"
                 android:textColor="@color/colorBlack"
-                android:textSize="16sp" />
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -46,26 +46,25 @@
                     android:src="@drawable/ic_coin" />
 
                 <TextView
+                    android:id="@+id/tv_shop_itemPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:text="@string/dummy_gold"
-                    android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
         </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="Buy" />
 
     </LinearLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:clipToPadding="true"
-        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_shop_itemRV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/shop_item_layout" />
-    </androidx.core.widget.NestedScrollView>
-</LinearLayout>
+</androidx.cardview.widget.CardView>

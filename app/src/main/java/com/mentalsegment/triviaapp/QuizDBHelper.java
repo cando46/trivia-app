@@ -55,38 +55,38 @@ public class QuizDBHelper extends SQLiteOpenHelper {
     private void fillQuestionsTable() {
         QuestionModel q1= new QuestionModel("What year was the very first model of the iPhone released ?",
                 "2006","2007","2008","2005",2);
-        addQuestion(q1);
+        insertQuestion(q1);
         QuestionModel q2= new QuestionModel("What’s the shortcut for the “copy” function ?",
                 "Ctrl + V","Ctrl + P","Ctrl + C","Ctrl + W",3);
-        addQuestion(q2);
+        insertQuestion(q2);
         QuestionModel q3= new QuestionModel("What country won the very first FIFA World Cup in 1930?",
                 "Uruguay","France","Turkey","Zimbabwe",1);
-        addQuestion(q3);
+        insertQuestion(q3);
         QuestionModel q4= new QuestionModel("Which planet has the most gravity ?",
                 "Earth","Venus","Saturn","Jupiter",4);
-        addQuestion(q4);
+        insertQuestion(q4);
         QuestionModel q5= new QuestionModel("How many molecules of oxygen does ozone have ?",
                 "1","2","3","4",3);
-        addQuestion(q5);
+        insertQuestion(q5);
         QuestionModel q6= new QuestionModel("Which country produces the most coffee in the world ?",
                 "Turkey","Germany","China","Brazil",4);
-        addQuestion(q6);
+        insertQuestion(q6);
         QuestionModel q7= new QuestionModel("Which country invented tea ?",
                 "France","Italy","China","Turkey",3);
-        addQuestion(q7);
+        insertQuestion(q7);
         QuestionModel q8= new QuestionModel("How many films did Sean Connery play James Bond in ?",
                 "4","5","7","9",3);
-        addQuestion(q8);
+        insertQuestion(q8);
         QuestionModel q9= new QuestionModel("In what year was the first episode of South Park aired?",
                 "1997","1998","1999","2000",1);
-        addQuestion(q9);
+        insertQuestion(q9);
         QuestionModel q10= new QuestionModel("How many hearts does an octopus have ?",
                 "3","2","1","None",1);
-        addQuestion(q10);
+        insertQuestion(q10);
 
     }
 
-    private void addQuestion(QuestionModel questionModel) {
+    private void insertQuestion(QuestionModel questionModel) {
         ContentValues cv = new ContentValues();
         cv.put(QuestionsTable.COLUMN_QUESTION,questionModel.getQuestion());
         cv.put(QuestionsTable.COLUMN_ANSWER_A,questionModel.getAnswerA());
@@ -96,6 +96,10 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         cv.put(QuestionsTable.COLUMN_ANSWER_CORRECT,questionModel.getCorrectAnswer());
         db.insert(QuestionsTable.TABLE_NAME,null,cv);
 
+    }
+    public void addQuestion(QuestionModel questionModel){
+        db=getWritableDatabase();
+        insertQuestion(questionModel);
     }
 
     public List<QuestionModel> getAllQuestions() {
@@ -117,4 +121,6 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         cursor.close();
         return questionList;
     }
+
+
 }

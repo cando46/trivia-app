@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
     }
 
     @Override
@@ -81,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new HomeFragment()).commit();
-
     }
 
     @Override
@@ -108,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void onClickSendNavDraw() {
+        Intent intent=new Intent(this,SendMessageActivity.class);
+        startActivity(intent);
 
     }
 

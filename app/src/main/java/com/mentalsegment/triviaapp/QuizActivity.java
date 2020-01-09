@@ -3,10 +3,13 @@ package com.mentalsegment.triviaapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import android.graphics.Color;
+import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -16,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,6 +38,13 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     CoordinatorLayout coordinatorLayout;
 
     private static final int DELAY_TIME = 1000;
+    private static final long COUNTDOWN_IN_MILLIS = 21000;
+    public static final String EXTRA_SCORE = "extraScore";
+
+    private ColorStateList textColorDefaultCd;
+
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMillis;
 
     private List<QuestionModel> questionList;
     private int questionCounter;
@@ -47,7 +58,11 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         init();
+        textColorDefaultCd=timer.getTextColors();
         QuizDBHelper quizDBHelper = new QuizDBHelper(this);
         questionList = quizDBHelper.getAllQuestions();
         questionCountTotal = questionList.size();
@@ -71,16 +86,59 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             answerD.setText(currentQuestion.getAnswerD());
 
             questionCounter++;
-            String scoreText = Integer.toString(score);
+            String scoreText = "Score: "+ score;
             String questionCountText = "Question: " + questionCounter + "/" + questionCountTotal;
             questionCount.setText(questionCountText);
             scoreTv.setText(scoreText);
+            
+            timeLeftInMillis=COUNTDOWN_IN_MILLIS;
+            startCountDown();
+
         } else {
             finishQuiz();
         }
     }
 
+    private void startCountDown() {
+        countDownTimer=new CountDownTimer(timeLeftInMillis,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMillis=millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+                timeLeftInMillis=0;
+                updateCountDownText();
+                updateScore(false);
+                setAnswerButtonsEnabled(false);
+                setCorrectAnswerGreen();
+                showNextQuestionWithDelay(DELAY_TIME);
+            }
+        }.start();
+    }
+
+    private void updateCountDownText(){
+        int minutes=(int)(timeLeftInMillis/1000)/60;
+        int seconds=(int)(timeLeftInMillis/1000)%60;
+
+        String timeFormatted=String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
+
+        timer.setText(timeFormatted);
+        if(timeLeftInMillis<10000){
+            timer.setTextColor(getColor(R.color.colorRed));
+        }
+        else{
+            timer.setTextColor(textColorDefaultCd);
+        }
+
+    }
+
     private void finishQuiz() {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(EXTRA_SCORE, score);
+        setResult(RESULT_OK, resultIntent);
         finish();
     }
 
@@ -145,6 +203,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     private void onClickD() {
         if (currentQuestion.getCorrectAnswer() == 4) {
             updateScore(true);
+
             // answerD.setBackgroundColor(getColor(R.color.colorGreen));
             answerD.setTextColor(getColor(R.color.colorGreen));
         } else {
@@ -154,6 +213,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             setCorrectAnswerGreen();
         }
         setAnswerButtonsEnabled(false);
+        countDownTimer.cancel();
         showNextQuestionWithDelay(DELAY_TIME);
     }
 
@@ -167,6 +227,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             setCorrectAnswerGreen();
         }
         setAnswerButtonsEnabled(false);
+        countDownTimer.cancel();
         showNextQuestionWithDelay(DELAY_TIME);
 
     }
@@ -181,6 +242,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             setCorrectAnswerGreen();
         }
         setAnswerButtonsEnabled(false);
+        countDownTimer.cancel();
         showNextQuestionWithDelay(DELAY_TIME);
 
     }
@@ -195,6 +257,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             setCorrectAnswerGreen();
         }
         setAnswerButtonsEnabled(false);
+        countDownTimer.cancel();
         showNextQuestionWithDelay(DELAY_TIME);
 
     }
@@ -207,6 +270,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                     public void onClick(View v) {
                         skip.setVisibility(View.INVISIBLE);
                         updateScore(true);
+                        countDownTimer.cancel();
                         showNextQuestion();
                     }
                 }).setActionTextColor(getColor(R.color.colorGreen));
@@ -231,8 +295,8 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(View v) {
                         ata.setVisibility(View.INVISIBLE);
-                        Snackbar snackbar1= Snackbar.make(coordinatorLayout,"Audience thinks "+
-                                currentQuestion.getCorrectAnswer()+". option is correct",Snackbar.LENGTH_LONG);
+                        Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Audience thinks " +
+                                currentQuestion.getCorrectAnswer() + ". option is correct", Snackbar.LENGTH_LONG);
                         snackbar1.show();
                     }
                 }).setActionTextColor(getColor(R.color.colorGreen));
@@ -255,10 +319,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void disableTwoWrongOption(){
-        int correct=currentQuestion.getCorrectAnswer();
+    private void disableTwoWrongOption() {
+        int correct = currentQuestion.getCorrectAnswer();
         setAnswerButtonsEnabled(false);
-        switch (correct){
+        switch (correct) {
             case 1:
                 answerA.setEnabled(true);
                 answerC.setEnabled(true);
@@ -281,7 +345,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     private void updateScore(Boolean isCorrectAnswer) {
         if (isCorrectAnswer) {
-            score = score + 10;
+            score = score + 10+((int)timeLeftInMillis/1000);
         } else {
             score = score - 5;
         }
@@ -339,5 +403,13 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         }
         backPressedTime = System.currentTimeMillis();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(countDownTimer!=null){
+            countDownTimer.cancel();
+        }
     }
 }
