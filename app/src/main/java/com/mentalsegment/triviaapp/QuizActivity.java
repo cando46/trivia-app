@@ -1,6 +1,7 @@
 package com.mentalsegment.triviaapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,11 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
 import java.util.List;
 
-public class QuizActivity extends AppCompatActivity implements View.OnClickListener{
+public class QuizActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView scoreTv;
     TextView questionCount;
@@ -27,6 +31,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     Button answerB;
     Button answerC;
     Button answerD;
+    CoordinatorLayout coordinatorLayout;
 
     private static final int DELAY_TIME = 1000;
 
@@ -36,6 +41,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     private QuestionModel currentQuestion;
     private int score;
 
+    private long backPressedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showNextQuestion() {
-       //reset();
+        //reset();
         setAnswerButtonsEnabled(true);
         setDefaultAnswersButtonColor();
         if (questionCounter < questionCountTotal) {
@@ -65,17 +71,16 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             answerD.setText(currentQuestion.getAnswerD());
 
             questionCounter++;
-            String scoreText= Integer.toString(score);
+            String scoreText = Integer.toString(score);
             String questionCountText = "Question: " + questionCounter + "/" + questionCountTotal;
             questionCount.setText(questionCountText);
             scoreTv.setText(scoreText);
-        }
-        else{
+        } else {
             finishQuiz();
         }
     }
 
-    private void finishQuiz(){
+    private void finishQuiz() {
         finish();
     }
 
@@ -93,6 +98,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         answerB = findViewById(R.id.btn_quiz_answer_B);
         answerC = findViewById(R.id.btn_quiz_answer_C);
         answerD = findViewById(R.id.btn_quiz_answer_D);
+        coordinatorLayout = findViewById(R.id.coordinator_layout_quiz);
         answerA.setOnClickListener(this);
         answerB.setOnClickListener(this);
         answerC.setOnClickListener(this);
@@ -101,13 +107,13 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         ata.setOnClickListener(this);
         doubleDip.setOnClickListener(this);
         skip.setOnClickListener(this);
-        score=0;
+        score = 0;
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.img_btn_quiz_5050:
                 onClick5050();
                 break;
@@ -137,14 +143,13 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void onClickD() {
-        if(currentQuestion.getCorrectAnswer()==4){
+        if (currentQuestion.getCorrectAnswer() == 4) {
             updateScore(true);
-           // answerD.setBackgroundColor(getColor(R.color.colorGreen));
+            // answerD.setBackgroundColor(getColor(R.color.colorGreen));
             answerD.setTextColor(getColor(R.color.colorGreen));
-        }
-        else{
+        } else {
             updateScore(false);
-           // answerD.setBackgroundColor(getColor(R.color.colorRed));
+            // answerD.setBackgroundColor(getColor(R.color.colorRed));
             answerD.setTextColor(getColor(R.color.colorRed));
             setCorrectAnswerGreen();
         }
@@ -153,11 +158,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void onClickC() {
-        if(currentQuestion.getCorrectAnswer()==3){
+        if (currentQuestion.getCorrectAnswer() == 3) {
             updateScore(true);
             answerC.setTextColor(getColor(R.color.colorGreen));
-        }
-        else{
+        } else {
             updateScore(false);
             answerC.setTextColor(getColor(R.color.colorRed));
             setCorrectAnswerGreen();
@@ -168,11 +172,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void onClickB() {
-        if(currentQuestion.getCorrectAnswer()==2){
+        if (currentQuestion.getCorrectAnswer() == 2) {
             updateScore(true);
             answerB.setTextColor(getColor(R.color.colorGreen));
-        }
-        else{
+        } else {
             updateScore(false);
             answerB.setTextColor(getColor(R.color.colorRed));
             setCorrectAnswerGreen();
@@ -183,11 +186,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void onClickA() {
-        if(currentQuestion.getCorrectAnswer()==1){
+        if (currentQuestion.getCorrectAnswer() == 1) {
             updateScore(true);
             answerA.setTextColor(getColor(R.color.colorGreen));
-        }
-        else{
+        } else {
             updateScore(false);
             answerA.setTextColor(getColor(R.color.colorRed));
             setCorrectAnswerGreen();
@@ -198,31 +200,90 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void onClickSkip() {
-        skip.setVisibility(View.INVISIBLE);
 
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Are you sure to skip question", Snackbar.LENGTH_INDEFINITE)
+                .setAction("YES", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        skip.setVisibility(View.INVISIBLE);
+                        updateScore(true);
+                        showNextQuestion();
+                    }
+                }).setActionTextColor(getColor(R.color.colorGreen));
+        snackbar.show();
     }
 
     private void onClickx2() {
-        doubleDip.setVisibility(View.INVISIBLE);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Are you sure to use Double Dip", Snackbar.LENGTH_INDEFINITE)
+                .setAction("YES", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doubleDip.setVisibility(View.INVISIBLE);
+                    }
+                }).setActionTextColor(getColor(R.color.colorGreen));
+        snackbar.show();
+
     }
 
     private void onClickATA() {
-        ata.setVisibility(View.INVISIBLE);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Are you sure to use Ask the Audience", Snackbar.LENGTH_INDEFINITE)
+                .setAction("YES", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ata.setVisibility(View.INVISIBLE);
+                        Snackbar snackbar1= Snackbar.make(coordinatorLayout,"Audience thinks "+
+                                currentQuestion.getCorrectAnswer()+". option is correct",Snackbar.LENGTH_LONG);
+                        snackbar1.show();
+                    }
+                }).setActionTextColor(getColor(R.color.colorGreen));
+        snackbar.show();
+
+
     }
 
     private void onClick5050() {
-        half.setVisibility(View.INVISIBLE);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Are you sure to use Half/Half", Snackbar.LENGTH_INDEFINITE)
+                .setAction("YES", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        half.setVisibility(View.INVISIBLE);
+                        disableTwoWrongOption();
+                    }
+                }).setActionTextColor(getColor(R.color.colorGreen));
+        snackbar.show();
+
 
     }
 
-
-    private void updateScore(Boolean isCorrectAnswer){
-        if(isCorrectAnswer){
-            score=score+10;
+    private void disableTwoWrongOption(){
+        int correct=currentQuestion.getCorrectAnswer();
+        setAnswerButtonsEnabled(false);
+        switch (correct){
+            case 1:
+                answerA.setEnabled(true);
+                answerC.setEnabled(true);
+                break;
+            case 2:
+                answerB.setEnabled(true);
+                answerD.setEnabled(true);
+                break;
+            case 3:
+                answerB.setEnabled(true);
+                answerC.setEnabled(true);
+                break;
+            case 4:
+                answerD.setEnabled(true);
+                answerA.setEnabled(true);
+                break;
         }
-        else
-        {
-            score=score-5;
+    }
+
+
+    private void updateScore(Boolean isCorrectAnswer) {
+        if (isCorrectAnswer) {
+            score = score + 10;
+        } else {
+            score = score - 5;
         }
     }
 
@@ -234,8 +295,8 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         answerD.setEnabled(bool);
     }
 
-    public void setCorrectAnswerGreen(){
-        switch (currentQuestion.getCorrectAnswer()){
+    public void setCorrectAnswerGreen() {
+        switch (currentQuestion.getCorrectAnswer()) {
             case 1:
                 answerA.setTextColor(getColor(R.color.colorGreen));
                 break;
@@ -251,14 +312,14 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void setDefaultAnswersButtonColor(){
+    public void setDefaultAnswersButtonColor() {
         answerA.setTextColor(getColor(R.color.colorWhite));
         answerB.setTextColor(getColor(R.color.colorWhite));
         answerC.setTextColor(getColor(R.color.colorWhite));
         answerD.setTextColor(getColor(R.color.colorWhite));
     }
 
-    public void showNextQuestionWithDelay(int DelayMs){
+    public void showNextQuestionWithDelay(int DelayMs) {
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -266,6 +327,17 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 showNextQuestion();
             }
         }, DelayMs);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            finishQuiz();
+        } else {
+            Toast.makeText(this, "Press back again to finish quiz!", Toast.LENGTH_LONG).show();
+        }
+        backPressedTime = System.currentTimeMillis();
 
     }
 }
