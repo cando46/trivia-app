@@ -10,5 +10,6 @@
     <color name="colorRed">#ff1919</color>
     <color name="colorGreen">#00cd00</color>
     <color name="Background">#F6F3EB</color>
+    <color name="DarkBlue">#003366</color>
 
 </resources>

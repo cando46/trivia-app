@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TriviaApp</string>
+    <string name="Et_LoginPage_Username">Kullanıcı Adı</string>
+    <string name="btn_loginPage_login">Giriş</string>
+    <string name="dummy_gold">2250</string>
+    <string name="dummy_mail">user@gmail.com</string>
+    <string name="dummy_mail_content">İçerik</string>
+    <string name="dummy_mail_title">Mail Başlığı</string>
+    <string name="et_loginPage_password">Şifre</string>
+    <string name="nav_draw_chat">Chat</string>
+    <string name="nav_draw_communicate">İletişim</string>
+    <string name="nav_draw_header_username">Kullanıcı Adı</string>
+    <string name="nav_draw_profile">Profil</string>
+    <string name="nav_draw_send">Gönder</string>
+    <string name="nav_draw_share">Paylaş</string>
+    <string name="nav_drawer_message">Mesaj</string>
+    <string name="nav_title_home">Ana Sayfa</string>
+    <string name="nav_title_profile">Profil</string>
+    <string name="nav_title_settings">Ayarlar</string>
+    <string name="nav_title_shop">Market</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+</resources>

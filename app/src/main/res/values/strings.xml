@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">TriviaApp</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="facebook_app_id">849303098819319</string>
@@ -23,6 +22,7 @@
     <string name="dummy_gold">2250</string>
     <string name="dummy_mail_title">Mail Title</string>
     <string name="dummy_mail_content">Content</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

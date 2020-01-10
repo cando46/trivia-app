@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        init();
+       // init();
         //facebookLogin();
         Intent intent= new Intent(getApplicationContext(),MainActivity.class);
         startActivity(intent);
