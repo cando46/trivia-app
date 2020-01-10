@@ -7,7 +7,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -33,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+       //makeNotification("Welcome our App!!");
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout_main);
@@ -132,4 +138,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(intent);
 
     }
+
+    /*private void makeNotification(String message){
+        String CHANNEL_ID = "TriviaApp";
+        String CHANNEL_NAME = "TA";
+        int NOTIFICATION_ID = 55;
+        NotificationChannel channel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channel = new NotificationChannel(CHANNEL_ID,
+                    CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channel.enableVibration(true);
+        }
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            manager.createNotificationChannel(channel);
+        }
+
+        Notification notification = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notification = new Notification.Builder(this, CHANNEL_ID)
+                    .setContentTitle("Trivia App")
+                    .setContentText(message)
+                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .setAutoCancel(true)
+                    .build();
+        }
+        manager.notify(NOTIFICATION_ID, notification);
+    }*/
 }
